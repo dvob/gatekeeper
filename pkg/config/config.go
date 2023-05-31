@@ -970,7 +970,8 @@ func (r *Config) extractDiscoveryURIComponents() error {
 	matches := reg.FindStringSubmatch(r.DiscoveryURI.Path)
 
 	if len(matches) == 0 {
-		return apperrors.ErrBadDiscoveryURIFormat
+		r.Realm = "none"
+		return nil
 	}
 
 	legacyIndex := reg.SubexpIndex("legacy")

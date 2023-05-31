@@ -2133,7 +2133,8 @@ func TestExtractDiscoveryURIComponents(t *testing.T) {
 					Path:   "/realms",
 				},
 			},
-			Valid: false,
+			ExpectedRealm: "none",
+			Valid:         true,
 		},
 	}
 
