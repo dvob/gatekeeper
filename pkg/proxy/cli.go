@@ -230,6 +230,13 @@ func parseCLIOptions(cliCtx *cli.Context, config *config.Config) error {
 		}
 		utils.MergeMaps(config.MatchClaims, claims)
 	}
+	if cliCtx.IsSet("auth-code-parameters") {
+		params, err := utils.DecodeKeyPairs(cliCtx.StringSlice("auth-code-parameters"))
+		if err != nil {
+			return err
+		}
+		utils.MergeMaps(config.AuthCodeParameters, params)
+	}
 
 	if cliCtx.IsSet("headers") {
 		headers, err := utils.DecodeKeyPairs(cliCtx.StringSlice("headers"))

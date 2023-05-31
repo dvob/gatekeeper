@@ -160,6 +160,7 @@ func exchangeAuthenticationCode(
 	code string,
 	codeVerifierCookie *http.Cookie,
 	skipOpenIDProviderTLSVerify bool,
+	authCodeOptions []oauth2.AuthCodeOption,
 ) (*oauth2.Token, error) {
 	return getToken(
 		client,
@@ -167,6 +168,7 @@ func exchangeAuthenticationCode(
 		code,
 		codeVerifierCookie,
 		skipOpenIDProviderTLSVerify,
+		authCodeOptions,
 	)
 }
 
@@ -177,6 +179,7 @@ func getToken(
 	code string,
 	codeVerifierCookie *http.Cookie,
 	skipOpenIDProviderTLSVerify bool,
+	authCodeOptions []oauth2.AuthCodeOption,
 ) (*oauth2.Token, error) {
 	ctx := context.Background()
 
@@ -192,7 +195,6 @@ func getToken(
 	}
 
 	start := time.Now()
-	authCodeOptions := []oauth2.AuthCodeOption{}
 
 	if grantType == config.GrantTypeAuthCode {
 		if codeVerifierCookie != nil {

@@ -210,12 +210,18 @@ func (r *OauthProxy) oauthCallbackHandler(writer http.ResponseWriter, req *http.
 		}
 	}
 
+	authCodeOptions := []oauth2.AuthCodeOption{}
+	for key, value := range r.Config.AuthCodeParameters {
+		authCodeOptions = append(authCodeOptions, oauth2.SetAuthURLParam(key, value))
+	}
+
 	//nolint:contextcheck
 	resp, err := exchangeAuthenticationCode(
 		conf,
 		code,
 		codeVerifier,
 		r.Config.SkipOpenIDProviderTLSVerify,
+		authCodeOptions,
 	)
 
 	if err != nil {

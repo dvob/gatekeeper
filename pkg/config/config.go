@@ -236,6 +236,8 @@ type Config struct {
 	// EncryptionKey is the encryption key used to encrypt the refresh token
 	EncryptionKey string `json:"encryption-key" yaml:"encryption-key" usage:"encryption key used to encryption the session state" env:"ENCRYPTION_KEY"`
 
+	// AuthCodeParameters are additional parameters which are passed to the the token endpoint in the token exchange
+	AuthCodeParameters map[string]string `json:"auth-code-parameters" yaml:"auth-code-parameters" usage:"additional parameters which are passed to the the token endpoint in the token exchange"`
 	// NoProxy it passed through all middleware but not proxy to upstream, useful when using as auth backend for forward-auth (nginx, traefik)
 	NoProxy bool `json:"no-proxy" yaml:"no-proxy" usage:"do not proxy requests to upstream, useful for forward-auth usage (with nginx, traefik)" env:"NO_PROXY"`
 	// NoRedirects informs we should hand back a 401 not a redirect
@@ -320,6 +322,7 @@ func NewDefaultConfig() *Config {
 
 	return &Config{
 		AccessTokenDuration:           time.Duration(720) * time.Hour,
+		AuthCodeParameters:            make(map[string]string),
 		CookieAccessName:              constant.AccessCookie,
 		CookieIDTokenName:             constant.IDTokenCookie,
 		CookieRefreshName:             constant.RefreshCookie,
